@@ -1,0 +1,116 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+.topnav {
+    background-color: #3a4664;
+    display: flex;
+}
+.topnav a {
+    color:#eaa0a2;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    text-align: center;
+    padding: 15px;
+    flex: 1 1 auto;
+    min-width: 120px;
+    text-decoration: none;
+}
+.topnav a.active {
+    background-color: #ffdbdc;
+    color:#3a4664;
+}
+.topnav a:hover{
+    background-color: #eee;
+    color: #aaa;
+}
+.cim  {
+    color: #3a4664;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+}
+.main {
+    flex:1;
+    margin-top: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 17px;
+}
+.footer {
+    background-color: #3a4664;
+    color: #ffdbdc;
+    padding: 5px;
+    text-align: center;
+}
+.kutyalista {
+    margin: auto;
+    max-width: 900px;
+    overflow-x: auto;
+    color: #3a4664;
+}
+
+.kutyalista table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+.kutyalista th, .kutyalista td {
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #3a4664;
+}
+.kutyalista button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #ffdbdc;
+    color: #3a4664;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.kutyalista button:hover {
+    background-color: #3a4664;
+    color: #ffdbdc;
+}
+h2{
+    position: relative;
+    left: 43%;
+}
+.m {
+    background-color: #f5f5f5;
+    padding: 10px;
+    width: 70%;
+    position:relative;
+    left: 12%;
+}
+.updateitem {
+    margin-bottom: 10px;
+}
+
+.updateitem input {
+    width: 40%;
+    padding: 10px;
+    border: 3px solid #3a4664;
+    position: relative;
+    left: 30%;
+}
+.uj {
+    background-color: #3a4664;
+    color: #ffdbdc;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 250px;
+    position: relative;
+    left: 43%;
+}
+.uj:hover {
+    background-color: #ffdbdc;
+    color: #3a4664;
+}

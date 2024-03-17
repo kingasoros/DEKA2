@@ -1,0 +1,208 @@
+body {
+    position: relative;
+}
+
+.navbar-nav li a{
+    border: 1px solid transparent;
+
+}
+.navbar-nav li a:hover {
+    border: 1px solid #f1ca61;
+}
+.navbar-nav{
+    list-style: none;
+    padding: 0 0.7vw;
+}
+.navbar-nav li a{
+    text-decoration: none;
+}
+
+.nav-item{
+    margin:5px;
+}
+.navbar-nav li a::before {
+    background-color: #f1ca61;
+    position: absolute;
+
+}
+/*.navbar-nav li a:hover::before{*/
+/*    border: 1px solid #f1ca61;*/
+/*}*/
+.carousel-inner img
+{
+    filter: blur(5px);
+}
+
+.carousel-caption{
+    font-size: 150px;
+    text-align: center;
+    justify-content: center;
+    color: white;
+    top: 50%;
+    left: 50%;
+
+}
+.carousel-item img {
+    max-width: 100%;
+    height: auto;
+}
+
+* {
+box-sizing: border-box;
+}
+
+body {
+Font-family: Verdana, sans-serif; 
+margin:0;
+}
+
+.mySlides {
+display: none;
+}
+
+img {
+vertical-align: middle;
+}
+
+.cont{
+    background-image:url("IMAGES/people.jpg") ;
+    background-size: cover;
+    height: 700px;
+}
+
+.cont_2{
+  margin:5% auto;
+  background-color: rgba(255, 255, 255, 0.612);
+  padding: 5%;
+  border-radius: 5%;
+}
+
+.fw-normal{
+  color: black;
+  margin:8%;
+}
+
+.text-center{
+  background-color: rgba(255, 255, 255, 0.838);
+  border-radius: 5%;
+}
+
+.butt_2{
+  background-color: #4663c4;
+  color: white;
+}
+
+.cont_3{
+  margin:5% auto;
+  background-color: rgba(255, 255, 255, 0.528);
+  padding: 5%;
+  border-radius: 5%;
+  width:55%;
+}
+
+img{
+    width: 100%;
+}
+
+.lead{
+    padding:5%;
+}
+ 
+
+
+.m_img{
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background-image: url('../IMAGES/people.jpg');
+    background-size:cover;
+    margin: 0 auto;
+  }
+
+.front_body{
+    background-color: #f1cb6196;
+}
+
+.media{
+    text-align: center;
+}
+
+.map{
+    background: antiquewhite;
+    width:100%;
+    height:450px; 
+    padding:5%;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+.map iframe{
+    height:80%;
+    width:90%;
+}
+
+.cont-img {
+    margin:0;
+    width: 100%;
+    height:360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(138, 132, 132, 0.637);
+    font-size: 24px;
+    text-align: center;    
+}
+
+.cont-img-2 {
+    margin:0;
+    width: 100%;
+    height:360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(138, 132, 132, 0.637);
+    font-size: 24px;
+    text-align: center;    
+}
+
+.cont-word {
+    line-height: 48px;
+    color: white;
+    display: inline-block;
+    font-weight: bolder;
+    font-size: 47px;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+}
+
+.cont {
+    display:flex;
+    margin:0;
+    background-image:url('../IMAGES/bedroom0.jpg') ;
+    background-size: cover;
+    width: 100%;
+    height:600px;
+    text-align: center;
+    line-height: 32px;
+    color: black;
+    padding: 5%;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; 
+    font-size: 18px;
+}
+
+.contakt {
+    display: inline-block;
+    width: 40%;
+    height: 90px;
+    font-weight: bolder;
+}
+.about-us {
+    margin:0;
+    text-align: center;
+    padding: 5%;
+    background-color: #f1cb6181;
+}
+
+@media (max-width: 768px) { /* Mobil eszközök szélessége */
+    .carousel-caption {
+        font-size: 1.5rem; /* Kisebb méret mobil eszközökön */
+    }
+}

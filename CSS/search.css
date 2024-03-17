@@ -1,0 +1,126 @@
+
+
+.search_main{
+    background-color: #ffffff;
+}
+
+label {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #000000;
+}
+.input-group{
+    display: inline-block;
+    font: inherit;
+}
+input[type="date"],
+select {
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 0.2em 0.5em 1em;
+}
+
+
+.btn:hover {
+    background-color: #b6b6b9;
+}
+
+
+.dropdown-menu {
+    font-size: 18px;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #6c757d;
+}
+
+
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #000;
+}
+select {
+    background-color: white;
+    border: thin solid blue;
+    border-radius: 5px;
+    display: inline-block;
+    font: inherit;
+    line-height: 1.5em;
+    padding: 0.5em 3.5em 0.5em 1em;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+select{
+    background-image:
+            linear-gradient(45deg, transparent 50%, gray 50%),
+            linear-gradient(135deg, gray 50%, transparent 50%),
+            linear-gradient(to right, #ccc, #ccc);
+    background-position:
+            calc(100% - 20px) calc(1em + 2px),
+            calc(100% - 15px) calc(1em + 2px),
+            calc(100% - 2.5em) 0.5em;
+    background-size:
+            5px 5px,
+            5px 5px,
+            1px 1.5em;
+    background-repeat: no-repeat;
+
+}
+
+
+.hidde_choose {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+.hidde_choose label {
+    text-align: right;
+    margin-right: 10px; / Add some margin for spacing */
+}
+
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+#location{
+    text-align: center;
+    font-size: 22px;
+    text-transform: none;
+    border-radius: 60% 70%;
+    border: 2px solid #ddd;
+    background-color: #f9f9f9;
+    padding: 9px;
+    margin: 5px;
+}
+
+.navbar-nav li a{
+    border: 1px solid transparent;
+
+}
+.navbar-nav li a:hover {
+    border: 1px solid #f1ca61;
+}
+.navbar-nav{
+    list-style: none;
+    padding: 0 0.7vw;
+}
+.navbar-nav li a{
+    text-decoration: none;
+}
+
+.nav-item{
+    margin:5px;
+}
+.navbar-nav li a::before {
+    background-color: #f1ca61;
+    position: absolute;
+
+}
