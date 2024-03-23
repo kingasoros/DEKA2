@@ -32,24 +32,20 @@
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index.html">Home</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="search.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link mx-2 " href="../about_us.html">
                         Company
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="../about_us.html">About Us</a></li>
-                        <li><a class="dropdown-item" href="#">Contact us</a></li>
-                    </ul>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item mx-3">
-                    <a class="nav-link text-light h4" href="login.php" target="blank">Login</a>
+                    <a class="nav-link text-light h4" href="index.php" target="blank">Login</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link text-light h4" href="sign_up.php" target="blank">Register</a>
@@ -151,8 +147,15 @@
     </div>
 
 
-    <?php
-include 'db_conn.php';
+<?php
+$host = "localhost";
+$username = "root";
+$password = "root";
+$db_123 = "bizkod2_3";
+
+
+$conn = mysqli_connect("$host","$username", "$password", "$db_123") or die(mysqli_error($connection));
+
 
 $rooms = []; // Initialize an empty array to store room data
 

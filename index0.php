@@ -1,3 +1,9 @@
+<?php 
+
+session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +34,7 @@
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="index.html">Home</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="index0.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="PHP/search.php">Rooms</a>
@@ -44,7 +50,7 @@
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item mx-3">
-                    <a class="nav-link text-light h4" href="PHP/login.php" target="blank">Login</a>
+                    <a class="nav-link text-light h4" href="PHP/index.php" target="blank">Login</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link text-light h4" href="PHP/sign_up.php" target="blank">Register</a>
@@ -68,7 +74,7 @@
       <div class="col-lg-4"></div>
       <div class="col-lg-4 media">
         <p class="m_img"></p>
-        <h2 class="fw-normal">Jani</h2>
+        <h2 class="fw-normal"><?php echo $_SESSION['first_name'];?></h2>
         <p>I have a positive experience with this site</p>
         <p><a class="btn btn-secondary" href="PHP/sign_up.php">Let's start! &raquo;</a></p>
       </div>

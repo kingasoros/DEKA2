@@ -33,24 +33,20 @@
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index.html">Home</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="search.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link mx-2 " href="../about_us.html">
                         Company
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="../about_us.html">About Us</a></li>
-                        <li><a class="dropdown-item" href="#">Contact us</a></li>
-                    </ul>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item mx-3">
-                    <a class="nav-link text-light h4" href="login.php" target="blank">Login</a>
+                    <a class="nav-link text-light h4" href="index.php" target="blank">Login</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link text-light h4" href="sign_up.php" target="blank">Register</a>
@@ -102,7 +98,7 @@
         <?php }?>
 
         <label for="gender">Gender:</label>
-        <select>
+        <select id="gender" name="gender">
         <option value="">Please select</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
@@ -136,17 +132,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" placeholder="example@gmail.com">
 
+            <label for="phone">Phone:</label>
+            <input type="text" name="phone_numb" id="phone" placeholder="0600000000" > 
+
             <label>Address:</label>
-            <?php if(isset($_GET['l_name'])) {?>
-                <input type="text"
-                       name="address"
-                       placeholder="Address"
-                       value="<?php echo $_GET['address']; ?>"><br>
-            <?php }else{ ?>
-                <input type="text"
-                       name="address"
-                       placeholder="Address"><br>
-            <?php }?>
+            <input type="text" name="address" placeholder="Address"><br>
 
             <label for="city">City:</label>
                 <select id="city" name="city" onchange="checkCustomOption(this)">
@@ -160,28 +150,42 @@
                     <option value="užice">Užice</option>
                     <option value="niš">Niš</option>
                     <option value="čačak">Čačak</option>
-
-                    <option value="custom" <?php echo $customOption == "custom" ? "selected" : ""; ?>>Other</option>
                 </select>
-            <div id="othersInput" style="display:none;">
-                <label for="otherInput">Enter Other Option:</label>
-                <input type="text" id="otherInput">
-            </div>
+
+            <label for="zip">Zip:</label>
+            <input type="text" name="zip" id="zip" placeholder="24000"> 
 
         <script src="../nav.js"></script>
 
-        <label>Password:</label>
+        <label for="nationality">Nationality:</label>
+                <select id="nationality" name="nationality" onchange="checkCustomOption(this)">
+                    <option value="">Please select</option>
+                    <option value="hungary">Hungary</option>
+                    <option value="serbian">Serbian</option>
+                    <option value="english">English</option>
+                </select>
+  
+        <label for="password">Password:</label>
         <input type="password" 
                name="password" 
+               id="password"
                placeholder="Password"><br>
 
-        <label>Reenter Password:</label>
+        <label for="re_password">Reenter Password:</label>
         <input type="password" 
                name="re_password" 
-               placeholder="Re Password"><br>
+               id="re_password"
+               placeholder="Re Password">
+
+        <br><br>
+        <label for="id">Upload a picture of your ID card:</label><br>
+        <input type="file" id="id" name="id_pic" accept="image/*"><br><br>
+
+        <label for="picture">Upload a picture of yourself:</label><br>
+        <input type="file" id="picture" name="picture" accept="image/*"><br><br>
 
         <button class="submit_2" type="submit">Sign Up</button>
-        <a href="login.php" class="ca">Already have an account?</a><br>
+        <a href="index.php" class="ca">Already have an account?</a><br>
         <a href="../index.html" class="ca">Back</a>
     </form>
 </div>

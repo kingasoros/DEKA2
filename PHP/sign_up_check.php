@@ -3,8 +3,14 @@
 session_start();
 include "db_conn.php";
 
-if(isset($_POST['f_name'], $_POST['l_name'], $_POST['gender'], $_POST['birthday'], $_POST['email'], $_POST['address'], $_POST['city'], $_POST['password'], $_POST['re_password'])){
-
+if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
+   isset($_POST['gender']) && 
+   isset($_POST['birthday']) && isset($_POST['email']) && 
+   isset($_POST['phone_numb']) && isset($_POST['address']) &&
+   isset($_POST['city']) && isset($_POST['zip']) &&
+   isset($_POST['nationality']) && 
+   isset($_POST['password']) && isset($_POST['re_password'])){
+   
     function validate($data){
         $data = trim($data);
         $data = stripslashes($data);
@@ -17,64 +23,95 @@ if(isset($_POST['f_name'], $_POST['l_name'], $_POST['gender'], $_POST['birthday'
     $gender = $_POST['gender'];
     $birthday = $_POST['birthday'];
     $email = validate($_POST['email']);
+    $phone = $_POST['phone_numb'];
     $address = validate($_POST['address']);
     $city = validate($_POST['city']);
-    $password = validate($_POST['password']);
-    $re_password = validate($_POST['re_password']);
-
-    $user_data = "f_name=" . $f_name . "&l_name=" . $l_name . "&gender=" . $gender . "&birthday=" . $birthday . "&email=" . $email . "&address=" . $address . "&city=" . $city;
+    $zip = $_POST['zip'];
+    $nationality = validate($_POST['nationality']);
+    $pass = validate($_POST['password']);
+    $re_pass = validate($_POST['re_password']);
+    $id_pic = $_FILES["id_pic"]["id_pic"];
+    $picture = $_FILES["picture"]["picture"];
     
     if(empty($f_name)){
-        header("Location: sign_up.php?error=First Name is required.&$user_data");
+        header("Location: sign_up.php?error=First Name is required.");
         exit();
-    } elseif(empty($l_name)){
-        header("Location: sign_up.php?error=Last Name is required.&$user_data");
+    } else if(empty($l_name)){
+        header("Location: sign_up.php?error=Last Name is required.");
         exit();
-    } elseif(empty($gender)){
-        header("Location: sign_up.php?error=Gender is required.&$user_data");
+    }else 
+    if(empty($id_pic)){
+        header("Location: sign_up.php?error=ID Picture is required.");
         exit();
-    } elseif(empty($birthday)){
-        header("Location: sign_up.php?error=Birthday is required.&$user_data");
+    }else
+     if(empty($gender)){
+        header("Location: sign_up.php?error=Gender is required.");
         exit();
-    } elseif(empty($email)){
-        header("Location: sign_up.php?error=Email is required.&$user_data");
+    } else if(empty($birthday)){
+        header("Location: sign_up.php?error=Birthday is required.");
         exit();
-    } elseif(empty($address)){
-        header("Location: sign_up.php?error=Address is required.&$user_data");
+    } else if(empty($email)){
+        header("Location: sign_up.php?error=Email is required.");
         exit();
-    } elseif(empty($city)){
-        header("Location: sign_up.php?error=City is required.&$user_data");
+    } else if(empty($phone)){
+        header("Location: sign_up.php?error=Phone Number is required.");
         exit();
-    } elseif(empty($password)){
-        header("Location: sign_up.php?error=Password is required.&$user_data");
+    } else if(empty($address)){
+        header("Location: sign_up.php?error=Address is required.");
         exit();
-    } elseif(empty($re_password)){
-        header("Location: sign_up.php?error=Re Password is required.&$user_data");
+    } else if(empty($city)){
+        header("Location: sign_up.php?error=City is required.");
         exit();
-    } elseif($password !== $re_password){
-        header("Location: sign_up.php?error=The confirmation password does not match.&$user_data");
+    } else if(empty($zip)){
+        header("Location: sign_up.php?error=Zip is required.");
+        exit();
+    }else if(empty($nationality)){
+        header("Location: sign_up.php?error=Nationality is required.");
+        exit();
+    }else 
+    if(empty($picture)){
+        header("Location: sign_up.php?error=Picture is required.");
+        exit();
+    }else
+     if(empty($pass)){
+        header("Location: sign_up.php?error=Password is required.");
+        exit();
+    }else if(empty($re_pass)){
+        header("Location: sign_up.php?error=Re Password is required.");
+        exit();
+    } else if($pass !== $re_pass){
+        header("Location: sign_up.php?error=The confirmation password does not match.");
         exit();
     } else {
 
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $pass = md5($pass);
 
         $sql = "SELECT * FROM person WHERE EmailAddress='$email' ";
-
         $result = mysqli_query($conn, $sql);
 
-        $sql2 = "INSERT INTO person(EmailAddress, Password) VALUES ('$email', '$hashedPassword')";
+        if(mysqli_num_rows($result) >0){
+            header("Location:sign_up.php?error=The username is taken try another.");
+            exit();
+        }else{
+        $sql2 = "INSERT INTO person(FirstName, LastName, Gender, DateOfBirth, EmailAddress, Password, 
+        PhoneNumber, Address, City, Zip, Nationality) VALUES ('$f_name', '$l_name', '$gender','$birthday'
+        , '$email', '$pass', '$phone','$address', '$city', '$zip','$nationality')";
+
         $result2 = mysqli_query($conn, $sql2);
+
         if($result2){
-            header("Location: sign_up.php?success=Your account has been created successfully.&$user_data");
+            header("Location: sign_up.php?success=Your account has been created successfully.");
             exit();
         } else {
-            header("Location: sign_up.php?error=Unknown error occurred.&$user_data");
+            header("Location: sign_up.php?error=Unknown error occurred.");
             exit();
         }        
     }
+   
+}
 
 } else {
-    header("Location: sign_up.php");
+    header("Location: sign_up.php?error=hello");
     exit();
 }
-?>
+

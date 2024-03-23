@@ -1,6 +1,6 @@
 <?php 
 
-require "db_conn.php";
+session_start();
 
 ?>
 <!DOCTYPE html>
@@ -28,22 +28,20 @@ require "db_conn.php";
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index.html">Home</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-2" href="search.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link mx-2 " href="../about_us.html">
                         Company
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">                       <li><a class="dropdown-item" href="../about_us.html">About Us</a></li>
-                    </ul>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item mx-3">
-                    <a class="nav-link text-light h4" href="login.php" target="blank">Login</a>
+                    <a class="nav-link text-light h4" href="index.php" target="blank">Login</a>
                 </li>
                 <li class="nav-item mx-3">
                     <a class="nav-link text-light h4" href="sign_up.php" target="blank">Register</a>
@@ -56,7 +54,7 @@ require "db_conn.php";
     <div class="container">
         <div class="row profile_things">
                 <div class="col-md-6">
-                    <img class="profile_img" src="../IMAGES/people.jpg">
+                    <img class="profile_img" src="<?php echo $_SESSION['pictures'];?>">
                 </div>
             <div class="col-md-6 datas">
                       <ul class="list-group mb-3" contenteditable="true">
@@ -64,38 +62,62 @@ require "db_conn.php";
                           <div>
                             <h6 class="my-0">First name</h6>
                           </div>
-                          <span class="text-muted"><?php $_GET['FirstName'];?></span>
+                          <span class="text-muted"><?php echo $_SESSION['first_name'];?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                           <div>
                             <h6 class="my-0">Last Name</h6>
                           </div>
-                          <span class="text-muted"><?php $_GET['LastName'];?></span>
+                          <span class="text-muted"><?php echo $_SESSION['last_name'];?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                           <div>
-                            <h6 class="my-0">Phone number</h6>
+                            <h6 class="my-0">Gender</h6>
                           </div>
-                          <span class="text-muted"><?php $_GET['PhoneNumber'];?></span>
+                          <span class="text-muted"><?php echo $_SESSION['gender'];?></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
+                              <h6 class="my-0">Date Of Birth</h6>
+                            </div>
+                            <span class="text-muted"><?php echo $_SESSION['birth'];?></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
                               <h6 class="my-0">Email</h6>
                             </div>
-                            <span class="text-muted"><?php $_GET['EmailAddress'];?></span>
+                            <span class="text-muted"><?php echo $_SESSION['email'];?></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                              <h6 class="my-0">Country</h6>
+                              <h6 class="my-0">Phone Number</h6>
                             </div>
-                            <span class="text-muted"><?php $_GET['City'];?></span>
+                            <span class="text-muted"><?php echo $_SESSION['phone'];?></span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                              <h6 class="my-0">State</h6>
+                              <h6 class="my-0">Address</h6>
                             </div>
-                            <span class="text-muted"><?php $_GET['Country'];?></span>
+                            <span class="text-muted"><?php echo $_SESSION['address'];?></span>
+                          </li><li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                              <h6 class="my-0">City</h6>
+                            </div>
+                            <span class="text-muted"><?php echo $_SESSION['city'];?></span>
                           </li>
+                          <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                              <h6 class="my-0">Zip</h6>
+                            </div>
+                            <span class="text-muted"><?php echo $_SESSION['zip'];?></span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                              <h6 class="my-0">Nationality</h6>
+                            </div>
+                            <span class="text-muted"><?php echo $_SESSION['nationality'];?></span>
+                          </li>
+                    
                           <li class="list-group-item ">
                             <div class="d-grid gap-2">
                                 <button class="btn btn-primary btn_edit" type="button">Edit</button>
