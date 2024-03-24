@@ -8,7 +8,7 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
    isset($_POST['birthday']) && isset($_POST['email']) && 
    isset($_POST['phone_numb']) && isset($_POST['address']) &&
    isset($_POST['city']) && isset($_POST['zip']) &&
-   isset($_POST['nationality']) && 
+   isset($_POST['nationality']) &&
    isset($_POST['password']) && isset($_POST['re_password'])){
    
     function validate($data){
@@ -30,8 +30,7 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
     $nationality = validate($_POST['nationality']);
     $pass = validate($_POST['password']);
     $re_pass = validate($_POST['re_password']);
-    $id_pic = $_FILES["id_pic"]["id_pic"];
-    $picture = $_FILES["picture"]["picture"];
+
     
     if(empty($f_name)){
         header("Location: sign_up.php?error=First Name is required.");
@@ -39,12 +38,7 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
     } else if(empty($l_name)){
         header("Location: sign_up.php?error=Last Name is required.");
         exit();
-    }else 
-    if(empty($id_pic)){
-        header("Location: sign_up.php?error=ID Picture is required.");
-        exit();
-    }else
-     if(empty($gender)){
+    }else if(empty($gender)){
         header("Location: sign_up.php?error=Gender is required.");
         exit();
     } else if(empty($birthday)){
@@ -68,12 +62,7 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
     }else if(empty($nationality)){
         header("Location: sign_up.php?error=Nationality is required.");
         exit();
-    }else 
-    if(empty($picture)){
-        header("Location: sign_up.php?error=Picture is required.");
-        exit();
-    }else
-     if(empty($pass)){
+    }else if(empty($pass)){
         header("Location: sign_up.php?error=Password is required.");
         exit();
     }else if(empty($re_pass)){
@@ -90,9 +79,10 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
         $result = mysqli_query($conn, $sql);
 
         if(mysqli_num_rows($result) >0){
-            header("Location:sign_up.php?error=The username is taken try another.");
+            header("Location:sign_up.php?error=The email is taken try another.");
             exit();
         }else{
+
         $sql2 = "INSERT INTO person(FirstName, LastName, Gender, DateOfBirth, EmailAddress, Password, 
         PhoneNumber, Address, City, Zip, Nationality) VALUES ('$f_name', '$l_name', '$gender','$birthday'
         , '$email', '$pass', '$phone','$address', '$city', '$zip','$nationality')";

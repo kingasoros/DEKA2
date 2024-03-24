@@ -1,7 +1,5 @@
-
-
 .search_main{
-    background-color: #ffffff;
+    background-color: #f1cb6196;;
 }
 
 label {
@@ -16,7 +14,9 @@ label {
 input[type="date"],
 select {
     background-color: white;
-    border: thin solid blue;
+    border: 0px solid #000;
+    box-shadow: 5px 5px  10px rgba(108, 117, 125, 0.5);
+    margin: 3px;
     border-radius: 4px;
     display: inline-block;
     font: inherit;
@@ -45,7 +45,7 @@ select {
 }
 select {
     background-color: white;
-    border: thin solid blue;
+    border: 0px solid #000;
     border-radius: 5px;
     display: inline-block;
     font: inherit;
@@ -122,5 +122,30 @@ select:-moz-focusring {
 .navbar-nav li a::before {
     background-color: #f1ca61;
     position: absolute;
+
+}
+.home{
+    background-color: rgba(108, 117, 125,0.01);
+    border: 0px solid #000; /* 2px vastag fekete színű keret */
+    box-shadow: 5px 5px  10px rgba(108, 117, 125, 0.5); /* 5px jobbra, 5px lefelé árnyék, 10px elmosódás, fekete árnyék színnel */
+    padding: 20px;
+    margin: 20px;
+    border-radius: 29px;
+}
+.city-name{
+    font-size: 45px;
+    letter-spacing: 8px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+
+
+}
+.data{
+    text-align: left;
+    font-size: 15px;
+    letter-spacing: 2px;
+    font-family: 'Roboto', sans-serif;
 
 }

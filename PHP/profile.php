@@ -1,5 +1,6 @@
 <?php 
 
+require "db_conn.php";
 session_start();
 
 ?>
@@ -54,7 +55,7 @@ session_start();
     <div class="container">
         <div class="row profile_things">
                 <div class="col-md-6">
-                    <img class="profile_img" src="<?php echo $_SESSION['pictures'];?>">
+                    <img class="profile_img" src="">
                 </div>
             <div class="col-md-6 datas">
                       <ul class="list-group mb-3" contenteditable="true">

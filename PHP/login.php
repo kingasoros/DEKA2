@@ -42,7 +42,6 @@ if(empty($email)){
             $_SESSION['city'] = $row['City'];
             $_SESSION['zip'] = $row['Zip'];
             $_SESSION['nationality'] = $row['Nationality'];
-            $_SESSION['pictures'] = $row['Pictures'];
         header("Location:profile.php");
         exit();  
         }else {

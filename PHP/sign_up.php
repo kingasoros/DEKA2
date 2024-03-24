@@ -177,13 +177,6 @@
                id="re_password"
                placeholder="Re Password">
 
-        <br><br>
-        <label for="id">Upload a picture of your ID card:</label><br>
-        <input type="file" id="id" name="id_pic" accept="image/*"><br><br>
-
-        <label for="picture">Upload a picture of yourself:</label><br>
-        <input type="file" id="picture" name="picture" accept="image/*"><br><br>
-
         <button class="submit_2" type="submit">Sign Up</button>
         <a href="index.php" class="ca">Already have an account?</a><br>
         <a href="../index.html" class="ca">Back</a>

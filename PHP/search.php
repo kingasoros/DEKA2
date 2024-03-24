@@ -15,6 +15,7 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
 <style>
     .room {
@@ -63,6 +64,9 @@
                     <i class="bi bi-pin-map-fill m-3"></i>
                     <input type="text" class="form-control" name="search" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Open Popup
+                    </button>
                 </div>
             </form>
 
@@ -148,13 +152,7 @@
 
 
 <?php
-$host = "localhost";
-$username = "root";
-$password = "root";
-$db_123 = "bizkod2_3";
-
-
-$conn = mysqli_connect("$host","$username", "$password", "$db_123") or die(mysqli_error($connection));
+require "db_conn.php";
 
 
 $rooms = []; // Initialize an empty array to store room data
@@ -187,51 +185,165 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
         <div class="room-results">
             <?php foreach ($rooms as $room): ?>
                 <div class="container">
-                    <div class="row border">
-                        <div class="col-md-6 col-lg-6 col-sm-6 col-6 b-1 d-flex justify-content-center">
-                            <!-- Fetch and display images for this room -->
-                            <?php
-                            // Prepare a SELECT statement to fetch images for this room
-                            $stmt = $conn->prepare("SELECT `RoomPic` FROM `roompic` WHERE `RoomID` = ?");
-                            $stmt->bind_param("i", $room['RoomID']);
-                            $stmt->execute();
-                            $result = $stmt->get_result();
+                    <div class="home">
+                        <div class="row">
+                            <div class="picture col-md-6 col-lg-6 col-sm-6 col-6 d-flex justify-content-center align-items-center">
+                                <!-- Fetch and display images for this room -->
+                                <?php
+                                // Prepare a SELECT statement to fetch images for this room
+                                $stmt = $conn->prepare("SELECT `RoomPic` FROM `roompic` WHERE `RoomID` = ?");
+                                $stmt->bind_param("i", $room['RoomID']);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
 
-                            // Check if there are images for this room
-                            if ($result->num_rows > 0) {
-                                // Fetch and display the first image
-                                $row = $result->fetch_assoc();
-                                echo '<img src="data:image/jpeg;base64,'.base64_encode($row['RoomPic']).'" class="img-fluid" alt="Room Image">';
-                            } else {
-                                // No images found for this room
-                                echo '<p>No images found for this room.</p>';
-                            }
+                                // Check if there are images for this room
+                                if ($result->num_rows > 0) {
+                                    // Fetch and display the first image
+                                    $row = $result->fetch_assoc();
+                                    echo '<img src="data:image/jpeg;base64,'.base64_encode($row['RoomPic']).'" class="img-fluid" alt="Room Image">';
+                                } else {
+                                    // No images found for this room
+                                    echo '<p>No images found for this room.</p>';
+                                }
 
-                            // Close the statement
-                            $stmt->close();
-                            ?>
+                                // Close the statement
+                                $stmt->close();
+                                ?>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-6 d-flex justify-content-center align-items-center">
+                                <div class="room-details">
+                                    <h2 class="city-name"><?php echo htmlspecialchars($room['City']); ?></h2>
+                                    <p class="data">Address: <?php echo htmlspecialchars($room['Address']); ?></p>
+                                    <p class="data">Square Meters: <?php echo htmlspecialchars($room['SquareMeters']); ?></p>
+                                    <p class="data">Smoking: <?php echo htmlspecialchars($room['Smoking'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Parking: <?php echo htmlspecialchars($room['Parking'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Pet: <?php echo htmlspecialchars($room['Pet'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Children: <?php echo htmlspecialchars($room['Children'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Kitchen: <?php echo htmlspecialchars($room['Kitchen'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Bathroom: <?php echo htmlspecialchars($room['Bathroom']); ?></p>
+                                    <p class="data">Living Room: <?php echo htmlspecialchars($room['LivingRoom'] ? 'Yes' : 'No'); ?></p>
+                                    <br><br>
+                                    <!-- Include other details as needed -->
+                                </div>
+                            </div>
                         </div>
-                        <table class="table table-hover">
-                        <div class="col-md-6 col-lg-6 col-sm-6 col-6 ">
-                            <h2><?php echo htmlspecialchars($room['City']); ?></h2>
-                            <p>Address: <?php echo htmlspecialchars($room['Address']); ?></p>
-                            <p>Square Meters: <?php echo htmlspecialchars($room['SquareMeters']); ?></p>
-                            <p>Smoking: <?php echo htmlspecialchars($room['Smoking'] ? 'Yes' : 'No'); ?></p>
-                            <p>Parking: <?php echo htmlspecialchars($room['Parking'] ? 'Yes' : 'No'); ?></p>
-                            <p>Pet: <?php echo htmlspecialchars($room['Pet'] ? 'Yes' : 'No'); ?></p>
-                            <p>Children: <?php echo htmlspecialchars($room['Children'] ? 'Yes' : 'No'); ?></p>
-                            <p>Kitchen: <?php echo htmlspecialchars($room['Kitchen'] ? 'Yes' : 'No'); ?></p>
-                            <p>Bathroom: <?php echo htmlspecialchars($room['Bathroom']); ?></p>
-                            <p>Living Room: <?php echo htmlspecialchars($room['LivingRoom'] ? 'Yes' : 'No'); ?></p>
-                            <!-- Include other details as needed -->
-                        </div></table>
                     </div>
                 </div>
+
             <?php endforeach; ?>
         </div>
     <?php else: ?>
         <p>No rooms found for the specified search criteria.</p>
     <?php endif; ?>
 
+ 
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="roomForm">
+                    <div class="mb-3">
+                        <label for="squareMeters" class="form-label">Square Meters</label>
+                        <input type="number" class="form-control" id="squareMeters" name="squareMeters">
+                    </div>
+                    <div class="mb-3">
+                        <label for="smoking" class="form-label">Smoking Allowed?</label>
+                        <select class="form-select" id="smoking" name="smoking">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="parking" class="form-label">Parking Available?</label>
+                        <select class="form-select" id="parking" name="parking">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pet" class="form-label">Pet Allowed?</label>
+                        <select class="form-select" id="pet" name="pet">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="children" class="form-label">Children Allowed?</label>
+                        <select class="form-select" id="children" name="children">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="kitchen" class="form-label">Kitchen Available?</label>
+                        <select class="form-select" id="kitchen" name="kitchen">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" name="city">
+                    </div>
+                    <div class="mb-3">
+                        <label for="zip" class="form-label">Zip</label>
+                        <input type="number" class="form-control" id="zip" name="zip">
+                    </div>
+                    <div class="mb-3">
+                        <label for="bathroom" class="form-label">Bathroom Available?</label>
+                        <select class="form-select" id="bathroom" name="bathroom">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="livingRoom" class="form-label">Living Room Available?</label>
+                        <select class="form-select" id="livingRoom" name="livingRoom">
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="numberOfBeds" class="form-label">Number of Beds</label>
+                        <input type="number" class="form-control" id="numberOfBeds" name="numberOfBeds">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="saveRoom">Next</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Next Modal -->
+<div class="modal fade" id="nextModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Next Step</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Display room ID here -->
+                <p> Room added succesfully!</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../nav.js"></script>
 </body>
 </html>
