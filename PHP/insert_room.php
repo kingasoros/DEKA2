@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 include "db_conn.php";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -44,32 +46,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>BizKod_DEKA</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="CSS/main_main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" type="text/css" href="../CSS/main_main.css">
+    <link rel="stylesheet" type="text/css" href="../CSS/search.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 </head>
-<body class="front_body" data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
-
-<script src="../nav.js"></script>
-
+<style>
+    .room {
+        border: 1px solid #000000;
+    }
+</style>
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i class="bi bi-house-door"></i></a>
@@ -83,15 +84,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="search.php">Rooms</a>
+                    <a class="nav-link mx-2" href="insert_room.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link mx-2 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link mx-2 " href="../about_us.html">
                         Company
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="../about_us.html">About Us</a></li>
-                    </ul>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto ">
@@ -106,9 +104,201 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 
+<div class="search_main  container-fluid mt-5 border p-3 mx-auto">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="search.php" method="get">
+                <div class="input-group mb-3">
+                    <i class="bi bi-pin-map-fill m-3"></i>
+                    <input type="text" class="form-control" name="search" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
+                   
+                </div>
+            </form>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        </div>
+        <?php if(isset($_GET['error'])){
+        ?>
+        <p class="error"> <?php echo $_GET['error'] ;?> </p>
+        <?php } ?>   
+        
+        <?php if(isset($_GET['success'])){
+        ?>
+        <p class="success"> <?php echo $_GET['success'] ;?> </p>
+        <?php } ?>
+        <div class="container-fluid">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-3 col-lg-4 col-sm-12 col-12">
+                    <div class="dropdown mb-3">
+                        <button class="btn  dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-4 col-sm-12 col-12">
+                    <label for="checkin">Check-in:</label>
+                    <input type="date" id="checkin" name="checkin">
+                    <label for="checkout">Check-out:</label>
+                    <input type="date" id="checkout" name="checkout">
+                </div>
+                <script>
+                    let visible = false;
+
+                    document.getElementById("dropdownMenuButton3").addEventListener("click", function() {
+                        if (!visible) {
+                            document.getElementById("hiddenDiv").style.display = "block";
+                            visible = true;
+                        } else {
+                            document.getElementById("hiddenDiv").style.display = "none";
+                            visible = false;
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <div id="hiddenDiv" class="hidden_div" style="display: none;">
+        <div class="hidde_choose">
+            <label for="Smoking" class="col-md-6 col-lg-2 col-sm-6 col-6">Smoking</label>
+            <select id="Smoking" name="smoking">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="Parking" class="col-md-6 col-lg-2 col-sm-6 col-6">Parking</label>
+            <select id="Parking" name="parking">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="Pet" class="col-md-6 col-lg-2 col-sm-6 col-6">Pet</label>
+            <select id="Pet" name="pet">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="Children" class="col-md-6 col-lg-2 col-sm-6 col-6">Children</label>
+            <select id="Children" name="children">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="Kitchen" class="col-md-6 col-lg-2 col-sm-6 col-6">Kitchen</label>
+            <select id="Kitchen" name="kitchen">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="LivingRoom" class="col-md-6 col-lg-2 col-sm-6 col-6">LivingRoom</label>
+            <select id="LivingRoom" name="livingroom">
+                <option value="0" selected>No</option>
+                <option value="1">Yes</option>
+            </select>
+            <label for="Gender" class="col-md-6 col-lg-2 col-sm-6 col-6">Gender</label>
+            <select id="Gender" name="gender">
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <label for="NumberOfBeds" class="col-md-6 col-lg-2 col-sm-6 col-6">Number of Beds</label>
+            <select id="NumberOfBeds" name="beds">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+
+<?php
+require "db_conn.php";
+
+
+$rooms = []; // Initialize an empty array to store room data
+
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    // The user submitted a search query
+    $searchTerm = $_GET['search'];
+    // Prepare a SELECT statement to fetch rooms matching the search term
+    $stmt = $conn->prepare("SELECT * FROM `room` WHERE `City` LIKE ?");
+    $searchTerm = "%$searchTerm%";
+    $stmt->bind_param("s", $searchTerm);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    while ($row = $result->fetch_assoc()) {
+        $rooms[] = $row; // Store each fetched row in the array
+    }
+    $stmt->close();
+} else {
+    // No search query; fetch all rooms
+    $result = $conn->query("SELECT * FROM `room`");
+
+    while ($row = $result->fetch_assoc()) {
+        $rooms[] = $row; // Store each fetched row in the array
+    }
+}
+?>
+
+    <?php if (!empty($rooms)): ?>
+        <div class="room-results">
+            <?php foreach ($rooms as $room): ?>
+                <div class="container">
+                    <div class="home">
+                        <div class="row">
+                            <div class="picture col-md-6 col-lg-6 col-sm-6 col-6 d-flex justify-content-center align-items-center">
+                                <!-- Fetch and display images for this room -->
+                                <?php
+                                // Prepare a SELECT statement to fetch images for this room
+                                $stmt = $conn->prepare("SELECT `RoomPic` FROM `roompic` WHERE `RoomID` = ?");
+                                $stmt->bind_param("i", $room['RoomID']);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+
+                                // Check if there are images for this room
+                                if ($result->num_rows > 0) {
+                                    // Fetch and display the first image
+                                    $row = $result->fetch_assoc();
+                                    echo '<img src="data:image/jpeg;base64,'.base64_encode($row['RoomPic']).'" class="img-fluid" alt="Room Image">';
+                                } else {
+                                    // No images found for this room
+                                    echo '<p>No images found for this room.</p>';
+                                }
+
+                                // Close the statement
+                                $stmt->close();
+                                ?>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-6 col-6 d-flex justify-content-center align-items-center">
+                                <div class="room-details">
+                                    <h2 class="city-name"><?php echo htmlspecialchars($room['City']); ?></h2>
+                                    <p class="data">Address: <?php echo htmlspecialchars($room['Address']); ?></p>
+                                    <p class="data">Square Meters: <?php echo htmlspecialchars($room['SquareMeters']); ?></p>
+                                    <p class="data">Smoking: <?php echo htmlspecialchars($room['Smoking'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Parking: <?php echo htmlspecialchars($room['Parking'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Pet: <?php echo htmlspecialchars($room['Pet'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Children: <?php echo htmlspecialchars($room['Children'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Kitchen: <?php echo htmlspecialchars($room['Kitchen'] ? 'Yes' : 'No'); ?></p>
+                                    <p class="data">Bathroom: <?php echo htmlspecialchars($room['Bathroom']); ?></p>
+                                    <p class="data">Living Room: <?php echo htmlspecialchars($room['LivingRoom'] ? 'Yes' : 'No'); ?></p>
+                                    <div class="d-grid gap-2">
+                                    <a class="btn btn-warning btn_edit" href="delete.php" type="button">Reserve</a>
+                                    </div>
+                                    <?php 
+                                    $_SESSION['room_id']=$room['RoomID'];
+                                    ?>
+                                    
+                                    <br><br>
+                                    <!-- Include other details as needed -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p>No rooms found for the specified search criteria.</p>
+    <?php endif; ?>
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -214,53 +404,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('saveRoom').addEventListener('click', function (event) {
+                event.preventDefault();
 
+                var form = document.getElementById('roomForm');
+                var formData = new FormData(form);
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('saveRoom').addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default form submission behavior
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var response = JSON.parse(xhr.responseText);
 
-            var form = document.getElementById('roomForm');
-            var formData = new FormData(form);
-
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
-                        // Parse the response JSON
-                        var response = JSON.parse(xhr.responseText);
-
-                        if (response.success) {
-                            // Log the roomID to the console
-                            console.log("RoomID:", response.roomID);
-
-                            // Reset the form after successful insertion
-                            form.reset();
-
-                            // Close the current modal and open the next one
-                            $('#exampleModal').modal('hide');
-                            $('#nextModal').modal('show');
+                            if (response.success) {
+                                console.log("RoomID:", response.roomID);
+                                form.reset();
+                                $('#exampleModal').modal('hide');
+                                $('#nextModal').modal('show');
+                            } else {
+                                console.error('Error:', response.error);
+                                alert('Error: ' + response.error);
+                            }
                         } else {
-                            // Insertion failed, log the error
-                            console.error('Error:', response.error);
-                            alert('Error: ' + response.error); // Notify user of insertion failure
+                            console.error('Error:', xhr.statusText);
+                            alert('Error: ' + xhr.statusText);
                         }
-                    } else {
-                        // Error occurred in the request
-                        console.error('Error:', xhr.statusText);
-                        alert('Error: ' + xhr.statusText); // Notify user of request failure
                     }
-                }
-            };
+                };
 
-            xhr.open('POST', '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send(new URLSearchParams(formData));
+                xhr.open('POST', '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.send(new URLSearchParams(formData));
+            });
         });
-    });
-</script>
-
+    </script>
 
 
 </body>

@@ -33,10 +33,10 @@
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
+                    <a class="nav-link mx-2 " aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="search.php">Rooms</a>
+                    <a class="nav-link mx-2" href="insert_room.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 " href="../about_us.html">
@@ -49,7 +49,7 @@
                     <a class="nav-link text-light h4" href="index.php" target="blank">Login</a>
                 </li>
                 <li class="nav-item mx-3">
-                    <a class="nav-link text-light h4" href="sign_up.php" target="blank">Register</a>
+                    <a class="nav-link text-light h4 active bg-warning rounded" href="sign_up.php" target="blank">Register</a>
                 </li>
             </ul>
         </div>

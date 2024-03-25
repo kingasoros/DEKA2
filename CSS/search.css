@@ -149,3 +149,23 @@ select:-moz-focusring {
     font-family: 'Roboto', sans-serif;
 
 }
+.error{
+    color:#820a0a;
+    background: #d82c2c73;
+    padding:1%;
+    border-radius: 5%;
+    width: 50%;
+    margin: 1% auto;
+    text-align: center;
+}
+
+.success{
+    color:#0a3911;
+    background: #1b5c1e73;
+    padding:1%;
+    border-radius: 5%;
+    width: 50%;
+    margin: 1% auto;
+    text-align: center;
+
+}

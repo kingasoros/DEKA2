@@ -36,7 +36,7 @@
                     <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="search.php">Rooms</a>
+                    <a class="nav-link mx-2" href="insert_room.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 " href="../about_us.html">
@@ -100,9 +100,9 @@
         <label for="gender">Gender:</label>
         <select id="gender" name="gender">
         <option value="">Please select</option>
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
         </select>
 
         <?php

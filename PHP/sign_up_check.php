@@ -79,7 +79,7 @@ if(isset($_POST['f_name']) && isset($_POST['l_name']) &&
         $result = mysqli_query($conn, $sql);
 
         if(mysqli_num_rows($result) >0){
-            header("Location:sign_up.php?error=The email is taken try another.");
+            header("Location:sign_up.php?error=The email is taken, try another one.");
             exit();
         }else{
 

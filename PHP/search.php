@@ -1,3 +1,49 @@
+<?php
+include "db_conn.php";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
+    $squareMeters = $_POST['squareMeters'];
+    $smoking = $_POST['smoking'];
+    $parking = $_POST['parking'];
+    $pet = $_POST['pet'];
+    $children = $_POST['children'];
+    $kitchen = $_POST['kitchen'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $zip = $_POST['zip'];
+    $bathroom = $_POST['bathroom'];
+    $livingRoom = $_POST['livingRoom'];
+    $numberOfBeds = $_POST['numberOfBeds'];
+
+    // Prepare and bind parameters for room insertion
+    $stmtRoom = $conn->prepare("INSERT INTO room (SquareMeters, Smoking, Parking, Pet, Children, Kitchen, Address, City, Zip, Bathroom, LivingRoom, NumberOfBeds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmtRoom->bind_param("isssssssisii", $squareMeters, $smoking, $parking, $pet, $children, $kitchen, $address, $city, $zip, $bathroom, $livingRoom, $numberOfBeds);
+
+    // Execute the room insertion
+    if ($stmtRoom->execute()) {
+        // Room inserted successfully
+        $roomID = $stmtRoom->insert_id; // Get the ID of the last inserted room
+
+        // Close the statement
+        $stmtRoom->close();
+
+        // Close connection
+        $conn->close();
+
+        // Send JSON response with success and roomID
+        echo json_encode(array("success" => true, "roomID" => $roomID));
+    } else {
+        // Error inserting room
+        echo json_encode(array("success" => false, "error" => "Error inserting room"));
+    }
+
+    // Exit the script after sending the JSON response
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +69,9 @@
     }
 </style>
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+
+<script src="../nav.js"></script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><i class="bi bi-house-door"></i></a>
@@ -64,9 +113,11 @@
                     <i class="bi bi-pin-map-fill m-3"></i>
                     <input type="text" class="form-control" name="search" placeholder="Search" aria-label="Search" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2"><i class="bi bi-search"></i></button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Open Popup
-                    </button>
+                    <div class="container mt-5">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Open Popup
+                </button>
+                </div>
                 </div>
             </form>
 
@@ -152,7 +203,6 @@
 
 
 <?php
-require "db_conn.php";
 
 
 $rooms = []; // Initialize an empty array to store room data
@@ -344,6 +394,54 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
     </div>
 </div>
 
-<script src="../nav.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('saveRoom').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            var form = document.getElementById('roomForm');
+            var formData = new FormData(form);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Parse the response JSON
+                        var response = JSON.parse(xhr.responseText);
+
+                        if (response.success) {
+                            // Log the roomID to the console
+                            console.log("RoomID:", response.roomID);
+
+                            // Reset the form after successful insertion
+                            form.reset();
+
+                            // Close the current modal and open the next one
+                            $('#exampleModal').modal('hide');
+                            $('#nextModal').modal('show');
+                        } else {
+                            // Insertion failed, log the error
+                            console.error('Error:', response.error);
+                            alert('Error: ' + response.error); // Notify user of insertion failure
+                        }
+                    } else {
+                        // Error occurred in the request
+                        console.error('Error:', xhr.statusText);
+                        alert('Error: ' + xhr.statusText); // Notify user of request failure
+                    }
+                }
+            };
+
+            xhr.open('POST', '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(new URLSearchParams(formData));
+        });
+    });
+</script>
+
+
+
 </body>
 </html>

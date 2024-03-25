@@ -35,10 +35,10 @@ $room = mysqli_fetch_assoc($result);
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="PHP/search.php">Rooms</a>
+                    <a class="nav-link mx-2" href="PHP/insert_room.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 " href="about_us.html">
