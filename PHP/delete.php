@@ -6,7 +6,7 @@ require "db_conn.php";
 $id_to_delete = $_SESSION['room_id']; // id lekérése a GET kéréstől, ami a táblából való törlendő rekordot azonosítja
 $sql = "DELETE FROM Room WHERE RoomID = $id_to_delete";
 
-if ($conn->query($sql) === TRUE) {
+if (!($conn->query($sql) === TRUE)) {
     header("Location:insert_room.php?success= Room succesfully reserved!");
     exit();
 } else {

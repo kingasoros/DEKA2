@@ -81,10 +81,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class=" collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item">
-                    <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
+                    <a class="nav-link mx-2 " aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="insert_room.php">Rooms</a>
+                    <a class="nav-link mx-2 active bg-warning rounded" href="insert_room.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 " href="../about_us.html">
@@ -117,15 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </form>
 
         </div>
-        <?php if(isset($_GET['error'])){
-        ?>
-        <p class="error"> <?php echo $_GET['error'] ;?> </p>
-        <?php } ?>   
         
-        <?php if(isset($_GET['success'])){
-        ?>
-        <p class="success"> <?php echo $_GET['success'] ;?> </p>
-        <?php } ?>
         <div class="container-fluid">
             <div class="row justify-content-center text-center">
                 <div class="col-md-3 col-lg-4 col-sm-12 col-12">
@@ -205,9 +197,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-<?php
-require "db_conn.php";
 
+
+<?php if(isset($_GET['error'])){
+    ?>
+    <p class="error"> <?php echo $_GET['error'] ;?> </p>
+    <?php } ?>   
+    
+    <?php if(isset($_GET['success'])){
+    ?>
+    <p class="success"> <?php echo $_GET['success'] ;?> </p>
+    <?php } ?>
+<?php
 
 $rooms = []; // Initialize an empty array to store room data
 
@@ -277,11 +278,12 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                                     <p class="data">Bathroom: <?php echo htmlspecialchars($room['Bathroom']); ?></p>
                                     <p class="data">Living Room: <?php echo htmlspecialchars($room['LivingRoom'] ? 'Yes' : 'No'); ?></p>
                                     <div class="d-grid gap-2">
-                                    <a class="btn btn-warning btn_edit" href="delete.php" type="button">Reserve</a>
+                                    <?php
+
+                                    $_SESSION['room_id']=$room['RoomID']?>
+                                    <div class="d-grid gap-2">
+                                    <a class="btn btn-primary btn_edit" href="delete.php" type="button">Reserve</a>
                                     </div>
-                                    <?php 
-                                    $_SESSION['room_id']=$room['RoomID'];
-                                    ?>
                                     
                                     <br><br>
                                     <!-- Include other details as needed -->

@@ -1,54 +1,56 @@
 <?php
-include "db_conn.php";
+session_start(); // Start the session
 
+// Check if the user is logged in
+if (!isset($_SESSION['email'])) {
+    // Redirect the user to the login page or display an error message
+    header("Location: login.php");
+    exit(); // Stop execution of the script
+}
+
+// Include the database connection file
+require "db_conn.php";
+
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Retrieve form data
-    $squareMeters = $_POST['squareMeters'];
-    $smoking = $_POST['smoking'];
-    $parking = $_POST['parking'];
-    $pet = $_POST['pet'];
-    $children = $_POST['children'];
-    $kitchen = $_POST['kitchen'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $zip = $_POST['zip'];
-    $bathroom = $_POST['bathroom'];
-    $livingRoom = $_POST['livingRoom'];
-    $numberOfBeds = $_POST['numberOfBeds'];
 
-    // Prepare and bind parameters for room insertion
-    $stmtRoom = $conn->prepare("INSERT INTO room (SquareMeters, Smoking, Parking, Pet, Children, Kitchen, Address, City, Zip, Bathroom, LivingRoom, NumberOfBeds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmtRoom->bind_param("isssssssisii", $squareMeters, $smoking, $parking, $pet, $children, $kitchen, $address, $city, $zip, $bathroom, $livingRoom, $numberOfBeds);
+    // Function to handle file upload
+    function uploadFile($fieldName, $columnName)
+    {
+        global $conn; // Access the $conn variable defined outside the function
 
-    // Execute the room insertion
-    if ($stmtRoom->execute()) {
-        // Room inserted successfully
-        $roomID = $stmtRoom->insert_id; // Get the ID of the last inserted room
+        // Check if file is uploaded successfully
+        if ($_FILES[$fieldName]["error"] == UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES[$fieldName]["tmp_name"];
+            $name = basename($_FILES[$fieldName]["name"]);
+            $data = file_get_contents($tmp_name);
 
-        // Close the statement
-        $stmtRoom->close();
+            // Prepare and execute query to insert image into database
+            $stmt = $conn->prepare("UPDATE person SET $columnName = ? WHERE EmailAddress = ?");
+            $stmt->bind_param("ss", $data, $_SESSION['email']);
+            $stmt->execute();
+            $stmt->close();
 
-        // Close connection
-        $conn->close();
-
-        // Send JSON response with success and roomID
-        echo json_encode(array("success" => true, "roomID" => $roomID));
-    } else {
-        // Error inserting room
-        echo json_encode(array("success" => false, "error" => "Error inserting room"));
+            return true; // File uploaded successfully
+        } else {
+            return false; // File upload failed
+        }
     }
 
-    // Exit the script after sending the JSON response
-    exit();
+    // Upload ID Pic
+    if (uploadFile("id_pic", "IDPic")) {
+        echo "ID Pic uploaded successfully.<br>";
+    } else {
+        echo "ID Pic upload failed.<br>";
+    }
+
+    // Upload Profile Picture
+    if (uploadFile("profile_pic", "Picture")) {
+        echo "Profile Picture uploaded successfully.<br>";
+    } else {
+        echo "Profile Picture upload failed.<br>";
+    }
 }
-?>
-
-
-<?php 
-
-require "db_conn.php";
-session_start();
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,7 +64,7 @@ session_start();
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="../CSS/style_1.css">
-
+        <script src="../script.js"></script>
     </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 fixed-top">
@@ -78,7 +80,7 @@ session_start();
                     <a class="nav-link mx-2 active bg-warning rounded" aria-current="page" href="../index0.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mx-2" href="insert_room.php">Rooms</a>
+                    <a class="nav-link mx-2" href="search.php">Rooms</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link mx-2 " href="../about_us.html">
@@ -100,11 +102,36 @@ session_start();
     
     <div class="container">
         <div class="row profile_things">
-                <div class="col-md-6">
-                    <img class="profile_img" src="">
-                </div>
+            <div class="col-md-6">
+                <?php
+                // Include the database connection file
+                require "db_conn.php";
+                global $conn;
+                // Query the person table for the user's profile picture
+                $stmt = $conn->prepare("SELECT Picture FROM person WHERE EmailAddress = ?");
+                $stmt->bind_param("s", $_SESSION['email']);
+                $stmt->execute();
+                $stmt->store_result();
+
+                // Check if the profile picture exists
+                if ($stmt->num_rows > 0) {
+                    $stmt->bind_result($profilePicture);
+                    $stmt->fetch();
+
+                    // Output the profile picture
+                    echo '<img class="profile_img" style="width: 70%;" src="data:image/jpeg;base64,' . base64_encode($profilePicture) . '" alt="Profile Picture">';
+                } else {
+                    // Display the default profile picture
+                    echo '<img class="profile_img" style="width: 70%;" src="../profilelogo.png" alt="Default Profile Picture">';
+                }
+
+                // Close the statement
+                $stmt->close();
+                ?>
+            </div>
+
             <div class="col-md-6 datas">
-                      <ul class="list-group mb-3" >
+                      <ul class="list-group mb-3" contenteditable="true">
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                           <div>
                             <h6 class="my-0">First name</h6>
@@ -166,11 +193,8 @@ session_start();
                           </li>
                     
                           <li class="list-group-item ">
-                            <!-- <div class="d-grid gap-2">
-                                <button class="btn btn-primary btn_edit" type="button">Edit</button>
-                              </div> -->
-                              <div class="d-grid gap-2">
-                                <a class="btn btn-warning btn_edit" href="logout.php" type="button">Logout</a>
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-warning btn_edit" type="button">Edit</button>
                               </div>
                           </li>
                       </ul>
@@ -178,113 +202,16 @@ session_start();
                     </div>
             </div>
         </div>
-    
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add New Room</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="roomForm">
-                    <div class="mb-3">
-                        <label for="squareMeters" class="form-label">Square Meters</label>
-                        <input type="number" class="form-control" id="squareMeters" name="squareMeters">
-                    </div>
-                    <div class="mb-3">
-                        <label for="smoking" class="form-label">Smoking Allowed?</label>
-                        <select class="form-select" id="smoking" name="smoking">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="parking" class="form-label">Parking Available?</label>
-                        <select class="form-select" id="parking" name="parking">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="pet" class="form-label">Pet Allowed?</label>
-                        <select class="form-select" id="pet" name="pet">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="children" class="form-label">Children Allowed?</label>
-                        <select class="form-select" id="children" name="children">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="kitchen" class="form-label">Kitchen Available?</label>
-                        <select class="form-select" id="kitchen" name="kitchen">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" name="address">
-                    </div>
-                    <div class="mb-3">
-                        <label for="city" class="form-label">City</label>
-                        <input type="text" class="form-control" id="city" name="city">
-                    </div>
-                    <div class="mb-3">
-                        <label for="zip" class="form-label">Zip</label>
-                        <input type="number" class="form-control" id="zip" name="zip">
-                    </div>
-                    <div class="mb-3">
-                        <label for="bathroom" class="form-label">Bathroom Available?</label>
-                        <select class="form-select" id="bathroom" name="bathroom">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="livingRoom" class="form-label">Living Room Available?</label>
-                        <select class="form-select" id="livingRoom" name="livingRoom">
-                            <option value="1">Yes</option>
-                            <option value="0">No</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="numberOfBeds" class="form-label">Number of Beds</label>
-                        <input type="number" class="form-control" id="numberOfBeds" name="numberOfBeds">
-                    </div>
-                    <button type="button" class="btn btn-primary" id="saveRoom">Next</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+    <div class="container">
+        <div class="col-md-6">
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
+                <h6 class="text-danger">Upload your ID for verification!</h6>
+                <input type="file" name="id_pic">
+                <h6>Upload a profile picture. </h6>
+                <input type="file" name="profile_pic">
+                <button class="btn btn-warning btn_edit" type="submit">Save</button>
+            </form>
         </div>
     </div>
-</div>
-
-<!-- Next Modal -->
-<div class="modal fade" id="nextModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Next Step</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Display room ID here -->
-                <p> Room added succesfully!</p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    
     </body>
 </html>
